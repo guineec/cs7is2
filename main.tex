@@ -4,7 +4,7 @@
 
 \begin{document}
 \mainmatter
-\title{Ethical AI: A Survey of Proposed Solutions and Open Problems}
+\title{Ethical AI: A Survey of Proposed Solutions}
 \subtitle{CS2IS2 Final Project (2017/2018)}
 \author{Cian Guinee}
 
@@ -57,18 +57,33 @@ The example solution in this work, which comes from \cite{loreggia} uses separat
 \par
 A second solution is proposed in \cite{balakrishnan} evaluates the incorporation of behavioural constraints in the ethical decision making process of AI systems. This, simply put, allows for certain well defined constraints to be used in the process of choosing actions by an agent. An example of this, given in \cite{kjoelen1995performance}, is the imposition of driving laws, such as speed limits, traffic lights etc. in the case of an agent in a self driving car system.
 \par
-Finally, in \cite{sirocco}, an outline of a framework for ethical decision making in AI systems is given in which previous cases are considered in the process. A language for describing cases is first outlined, in which cases are presented as a series of facts, with a set of attributes such as time, modifiers, duration over which the case occurred, for example. In every set of facts considered in the framework, one fact is considered the \textit{Questioned Fact}, which represents the ethical question that is being considered.
+Finally, in \cite{sirocco}, an outline of a framework for ethical decision making in AI systems, named SIROCCO, is given in which previous cases are considered in the process. In this solution, the problem of finding relevant cases to the problem in question is treated somewhat like an information retrieval problem. A language for describing cases is first outlined, in which cases are presented as a series of facts, with a set of attributes such as time, modifiers, duration over which the case occurred, for example. In every set of facts considered in the framework, one fact is considered the \textit{Questioned Fact}, which represents the ethical question that is being considered. Using this fact base, a hierarchy of facts is built and used in choosing actions for an agent.
 
 \section{Proposed Solutions}
 \subsection{CP-nets}
 \par
 CP-nets provide a way in which to model preference, and they achieve this by representing preference as a set of features, each with a corresponding set of parent features, which will impact the preference over the values in the feature set. This results in a so called \textit{dependency graph} being built \cite{loreggia}, where every node is preceded by its parents.
 \par
-The solution for the problem of ethics in AI defined in \cite{loreggia} uses CP-nets to model both preference and ethical principles. Using these separate nets, an idea of how closely aligned the defined ethical ideals and the modelled preferences are can be obtained, and through realignment of these ethical principals and preferences, an ethically aware agent can be produced. Also defined in \cite{loreggia} are several suggestions for a measure of distance in the context of CP-nets, which allow, in this application, appropriate ethical choices to be made. Choices are made through a pre-defined tolerance threshold in the distance between the principles CP-net and the preferences CP-net. A preference whose distance from the principles is within this threshold is deemed to be accpetable.
+The solution for the problem of ethics in AI defined in \cite{loreggia} uses CP-nets to model both preference and ethical principles. Using these separate nets, an idea of how closely aligned the defined ethical ideals and the modelled preferences are can be obtained, and through realignment of these ethical principals and preferences, an ethically aware agent can be produced. Also defined in \cite{loreggia} are several suggestions for a measure of distance in the context of CP-nets, which allow, in this application, appropriate ethical choices to be made. Choices are made through a pre-defined tolerance threshold in the distance between the principles CP-net and the preferences CP-net. A preference whose distance from the principles is within this threshold is deemed to be acceptable.
 
 \subsection{Behavioural Constraints}
+\par
+The work done in \cite{balakrishnan}, the solution proposed uses a \textit{contextual multi-armed bandit} approach, in which a `context' is provided to the agent in the form of a feature vector, and selects an \textit{arm}, in this case a certain action. A \textit{regret} value is then determined, taking into account the context with which the agent was provided.
+\par
+Using the values observed for each arm, the model is updated by determining the expected reward from choosing an arm, and then ascertaining the actual reward received by taking that action. Using these values, the agents beliefs can be updated. In practice, this solution uses a reinforcement learning approach, consisting of two phases.
+\par
+Phase one is the learning phase, in which the model is trained with regard to the constraints imposed in the problem definition. To start, the agent makes decisions without regard for the context of which it must be aware. It makes recommendations, which are then evaluated by the teacher, which provides information to the agent on whether the recommended actions are allowed. Using this feedback, the agent updates its model to incorporate the constraints into its decision making process. With repetition, the agent will improve its performance, suggesting actions with high reward, which conform to the rules set out by the provided context.
+\par
+In phase two, the online recommendation phase, the model developed in the first step is put into action in the agent to provide sets of actions for new problems. It will use the MAB approach to choose an action, which corresponds to an arm in the MAB approach, the results of which are used to update relevant parameters and choose a final action.
+
 
 \subsection{SIROCCO}
+\par
+Finally, the SIROCCO solution, defined in \cite{sirocco}, incorporates previous cases into the decision for the final action to be taken by the agent.
+\par
+First, a hierarchy of previous cases is constructed, taking into account cases relevant to the problem in question. A score for relevance is assigned to each case, after which the top N cases are chosen, relevant to the ethical question being posed.
+\par
+Using this top N relevant cases, several heuristics are used to determine the most relevant principles for the problem are chosen. Using these principles, a set of suggested actions are chosen as solutions to the problem.
 
 \section{Experimental Results}
 \subsection{CP-nets}
@@ -76,10 +91,25 @@ The solution for the problem of ethics in AI defined in \cite{loreggia} uses CP-
 The experiments carried out in \cite{loreggia} were performed as follows: 1000 CP-nets are generated based on pre-defined values. Using these CP-nets, tests are carried out using the measure for distance defined by this work, and compared with a known distance measure, with the aim to find out if the new measure of distance was any better than previous solutions in representing a model for making decisions in an artificial system. The scenarios provided to the tests attempt to address both the outcome when an ideal choice, that is one that aligns perfectly with the ethical principles, is made, and situations where an ideal choice can not be made.
 \par
 In the results of these tests, it can be observed that when a higher tolerance is given to the system, more True Positives, that is where ethical choices are very close to in line with ethical principles, are observed often. Decreasing the threshold will increase the true negatives, that is situations where the choice is not deemed ethical and a compromise must be chosen. With regard to how easily a decision can be chosen, it emerges that choosing an action becomes easier with a higher threshold between choices.
-These trade-offs are quite important in the context of an AI system, as an agent must both choose actions that align with the ethics of the humans with which it interacts, but also must be able to find compromise if an exact match can not be determined. As expected, the best model for ethical decision making based on CP-nets will be one that can find a balance between these values, although overall the model presented in this work does seem to be a plausible solution to the problem of modelling ethics.
+\par
+These results are to be expected - with more freedom in making choices, that is a looser constraint on how close a decision must be to the defined ethical principles, the number of adequate decisions will be higher, however the number of unsatisfactory outcomes in terms of a real world application, will also be higher. Similarly, where a tighter constraint is imposed, the number of potentially adequate actions for an agent to take which will be rejected is higher.
+\par
+These trade-offs are quite important in the context of an AI system, as an agent must both choose actions that align with the ethics of the humans with which it interacts, but also must be able to find compromise if an exact match can not be determined. As expected, the best model for ethical decision making based on CP-nets will be one that can find a balance between these values, although overall the model presented in this work does seem to be a plausible solution to the problem of modelling ethics, though while it may provide a good basic model for the decision making process, it would benefit from other metrics being used in deciding which actions to take, some of which could potentially include components of the other solutions discussed in this text.
+
+\subsection{Behavioural Constraints}
+\par
+The experiments in \cite{balakrishnan} are carried out over a dataset containing information about a variety of films. In these tests, the constraint imposed was a certain age limit for films based on their content. The recommender would try to recommend films that align with the preferences of the individual in question, while staying away from films that do not meet the age constraints with regard to the individual involved. It is important to note that the dataset does not contain any data on age constraints for a certain film, so the recommender has no initial information in this regard.
+\par
+In experimental evaluation, the proposed solution produced convincing recommendations, reasonably compliant with the constraints provided. Again, however, this provides a solution only to one of the many problems that comprise the whole problem of ethical decision making in AI systems. While rules like this make a good starting point for such a system, adhering to rules takes no account for the `grey areas' that often come up in ethical questions.
+
+\subsection{SIROCCO}
+\par
+In this experiment, comparisons between the proposed method and several other similar methods were compared on the same dataset - a set of 184 foundational cases and 58 trial cases. The foundational cases were transcribed to the machine understandable language outlined in previous sections, and used to train the model. Next, the trial cases were provided as input to the model, producing a set of relevant principles, to be used in taking an ethical action. F-Measure is used as a metric to compare the algorithms used in the experiment.
+\par
+In the experiments performed, SIROCCO is the clear favourite in all outcomes in suggesting relevant principles to the problem at hand. Its downfall, in this context, is that it lacks the production of a definitive result as to which action an agent should take, rather it defines which principles should be relevant in making ethical decisions.
 
 \section{Conclusions}
-Provide a final discussion of the main results and conclusions of the report. Comment on the lesson learnt and possible improvements.
+The problem of ethical decision making in AI systems is one for which there is no single solution. The process of making these decisions can be improved by incorporating many different factors. As the problem continues to become more important to address, solutions will continually emerge, iterating on previous solutions and include findings from other works to build better answers to these difficult ethical questions into the future.
 
 \begin{thebibliography}{5}
 %
