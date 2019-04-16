@@ -1,0 +1,106 @@
+\documentclass{svproc}
+\usepackage{url}
+\def\UrlFont{\rmfamily}
+
+\begin{document}
+\mainmatter
+\title{Ethical AI: A Survey of Proposed Solutions and Open Problems}
+\subtitle{CS2IS2 Final Project (2017/2018)}
+\author{Cian Guinee}
+
+\institute{
+\email{guineec@tcd.ie}}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+In early AI systems, agents had a relatively simple goal - solve the problem of their domain as efficiently as possible. This could be for example winning a game of chess, finding the shortest path between nodes on a graph or automating part of a factory assembly line. As the field has grown, however, the interactions between humans and intelligent agents have become increasingly close, and as a result problems have become much more complex. This has called into question, in many applications, what constitutes the goal for a system in this context. If we take the example of a self driving car: should the aim be to reach a destination as quickly as possible or should the emphasis be on safety, to the point where the car sits still? The answer, of course is a combination of both, and this presents a challenging problem for modern AI systems. This document looks at some of the ethical problems faced by modern AI systems, and reviews some of the proposed methods of addressing the open problems with them, making clear the advantages and disadvantages of each.
+\keywords{Artificial Intelligence, ethics, automation, health}
+\end{abstract}
+%
+
+% This document is a guideline for writing the final report for the CS7IS2 module Artificial Intelligence. You should follow its general structure as shown below.
+% You should not change its format (font, size, margin, space, etc.). 
+% Your report should be between five and ten pages. Report that not comply to the format or exceed the maximum length will be penalised (-5 marks).
+% Brevity is desirable in communication, however you should provide all those details necessary for the good understanding of the described methods and algorithms. 
+% The report will be graded on the basis of:
+% \begin{itemize}
+% \item Originality;
+% \item Technical soundness;
+% \item Organisation;
+% \item Clarity of presentation;
+% \item Adequacy of bibliography/Results (this last point strongly depends on the type of report)
+% \end{itemize}
+% You have two alternative choices for your report:
+% \begin{description}
+% \item[Survey.] This is a critical review of at least three papers that significantly contributed to advance the state-of-the-art for the problem you are analysing. This kind of report should not be a mere summary of the papers. You are expected to conduct an analytical review of the methods under analysis to try to find common aspect and differences, connections between methods, drawbacks and open problems. Unless the faced problem has emerged recently, students should choose their papers by diversifying the range of approaches used to solve the problem. A good guideline could be to choose a paper from a decade or two ago, and a couple of more recent papers. Also, try to include a paper that does not have the word deep in it. 
+% \item[Original Report.] In this project you can propose your own research project. You can develop your own AI algorithm that solves a specific problem. 
+% \end{description}
+
+\section{Introduction}
+% In this section, you should introduce your work: what are the motivations behind this work? What is the relevant problem that you are investigating? Why is it relevant? 
+\par
+The problem of building ethical artificial intelligence systems is one that has long been predicted, but has recently become more pressing. In early artificial intelligence, agents, most often, had clearly defined, single goals - from research applications in research, such as winning a game of chess to more practical goals, such as performing a task on an assembly line in a factory. Aside from agents having simpler goals, another important factor to take into account in the comparison of early and modern systems is their interaction with humans. Modern AI systems are growing ever closer to their users - if we look at an application that attempts to determine the state of a melanoma, for example \cite{kjoelen1995performance}, the impact on the user of the outcome, be it in a correct outcome, a false negative, or a false positive effects the human in the equation much more than in the case of earlier applications of AI. This, contrary to the aforementioned early AI systems, means that agents no longer have single purpose, clearly defined goals to determine what actions to take in a domain. Rather, they must take into account multiple metrics to determine what constitutes a goal, one of which is the ethical implications of their actions.
+\par
+This presents a challenge for developers of AI systems, as it is difficult to quantify good and bad in terms of ethical choices. The following survey delves into some of the work that has been done in this area recently, allowing the reader to get an understanding of which solutions have been proposed, and compares some of these proposed solutions to determine which, if any, has shown the most promising performance. The next section will outline some of the works studied in the compilation of this survey, and briefly introduce their contributions/proposed solutions.
+
+\section{Related Work and Problem Definition}
+\par
+The following section will detail some of the work examined in the area described in the introduction, and outline both the literature that helped in description of the problem, and proposing solutions to this problem.
+
+\par
+One of the first works studied for this survey was \cite{anderson:anderson}, in which an extensive overview is given of both the problem at hand and the efforts in progress to solve it. First, this work describes some of the reasons this problem is pressing in modern AI. To this end, many insights are given into why there is a necessity to solve the problem of machine ethics. Initially, the paper lists many of the reasons already given in the introduction to this survey, which largely boil down to AI agents having a requirement to be aware of the effects they may have on the humans with which they interact. Further describing the problem and the need for practical solutions, the authors point out that aside from this, in order to be beneficial to its users, an AI system needs to be perceived as ethically aware in a way that aligns with these user's beliefs. This again presents a challenging problem, as humans do not have one agreed upon sense of what is ethical and what is not, rather the definition of what is ethically `correct' varies from person to person.
+\par
+In the work `Building Ethically Bounded AI \cite{rossi:mattei},' a similar description of the problem is given to that above, as well as some more examples which illustrate the need for AI to be `bounded' as the title would suggest. This paper also goes on to examine two of the most state-of-the-art proposed solutions for using ethics as a bounding metric for intelligent systems. The first solution proposed is to use CP-nets to model ethical priorities and preferences. CP-nets (\textbf{C}onditional \textbf{P}reference \textbf{Net}works), are a popular way to model preferences, used in a variety of applications. To explain simply, a CP-net comprises a series of `Conditional Preference Statements,' which define preference based upon some existing parameters - e.g. the preference of blue cars over red cars \cite{rossi:mattei}, which, when given new input, attempt to assign some preference to these items.
+The example solution in this work, which comes from \cite{loreggia} uses separate CP-nets to model preferences and ethical guidelines to which these preferences can comply, as closely as possible.
+
+\par
+A second solution is proposed in \cite{balakrishnan} evaluates the incorporation of behavioural constraints in the ethical decision making process of AI systems. This, simply put, allows for certain well defined constraints to be used in the process of choosing actions by an agent. An example of this, given in \cite{kjoelen1995performance}, is the imposition of driving laws, such as speed limits, traffic lights etc. in the case of an agent in a self driving car system.
+\par
+Finally, in \cite{sirocco}, an outline of a framework for ethical decision making in AI systems is given in which previous cases are considered in the process. A language for describing cases is first outlined, in which cases are presented as a series of facts, with a set of attributes such as time, modifiers, duration over which the case occurred, for example. In every set of facts considered in the framework, one fact is considered the \textit{Questioned Fact}, which represents the ethical question that is being considered.
+
+\section{Proposed Solutions}
+\subsection{CP-nets}
+\par
+CP-nets provide a way in which to model preference, and they achieve this by representing preference as a set of features, each with a corresponding set of parent features, which will impact the preference over the values in the feature set. This results in a so called \textit{dependency graph} being built \cite{loreggia}, where every node is preceded by its parents.
+\par
+The solution for the problem of ethics in AI defined in \cite{loreggia} uses CP-nets to model both preference and ethical principles. Using these separate nets, an idea of how closely aligned the defined ethical ideals and the modelled preferences are can be obtained, and through realignment of these ethical principals and preferences, an ethically aware agent can be produced. Also defined in \cite{loreggia} are several suggestions for a measure of distance in the context of CP-nets, which allow, in this application, appropriate ethical choices to be made. Choices are made through a pre-defined tolerance threshold in the distance between the principles CP-net and the preferences CP-net. A preference whose distance from the principles is within this threshold is deemed to be accpetable.
+
+\subsection{Behavioural Constraints}
+
+\subsection{SIROCCO}
+
+\section{Experimental Results}
+\subsection{CP-nets}
+\par 
+The experiments carried out in \cite{loreggia} were performed as follows: 1000 CP-nets are generated based on pre-defined values. Using these CP-nets, tests are carried out using the measure for distance defined by this work, and compared with a known distance measure, with the aim to find out if the new measure of distance was any better than previous solutions in representing a model for making decisions in an artificial system. The scenarios provided to the tests attempt to address both the outcome when an ideal choice, that is one that aligns perfectly with the ethical principles, is made, and situations where an ideal choice can not be made.
+\par
+In the results of these tests, it can be observed that when a higher tolerance is given to the system, more True Positives, that is where ethical choices are very close to in line with ethical principles, are observed often. Decreasing the threshold will increase the true negatives, that is situations where the choice is not deemed ethical and a compromise must be chosen. With regard to how easily a decision can be chosen, it emerges that choosing an action becomes easier with a higher threshold between choices.
+These trade-offs are quite important in the context of an AI system, as an agent must both choose actions that align with the ethics of the humans with which it interacts, but also must be able to find compromise if an exact match can not be determined. As expected, the best model for ethical decision making based on CP-nets will be one that can find a balance between these values, although overall the model presented in this work does seem to be a plausible solution to the problem of modelling ethics.
+
+\section{Conclusions}
+Provide a final discussion of the main results and conclusions of the report. Comment on the lesson learnt and possible improvements.
+
+\begin{thebibliography}{5}
+%
+\bibitem{kjoelen1995performance}
+Kjoelen, A., Thompson, M. J., Umbaugh, S. E., Moss, R. H., \& Stoecker, W. V. (1995). Performance of AI methods in detecting melanoma. IEEE Engineering in Medicine and Biology Magazine, 14(4), 411-416.
+
+\bibitem {anderson:anderson}
+Anderson, M., \& Anderson, S. L. (2007). Machine ethics: Creating an ethical intelligent agent. AI magazine, 28(4), 15-15.
+
+\bibitem{rossi:mattei}
+Rossi, F., \& Mattei, N. (2018). Building Ethically Bounded AI. arXiv preprint arXiv:1812.03980.
+
+
+\bibitem {loreggia}
+Loreggia, A., Mattei, N., Rossi, F., \& Venable, K. B. (2018, March). Preferences and ethical principles in decision making. In 2018 AAAI Spring Symposium Series.
+
+\bibitem {balakrishnan}
+Balakrishnan, A., Bouneffouf, D., Mattei, N., \& Rossi, F. (2018). Incorporating behavioral constraints in online ai systems. arXiv preprint arXiv:1809.05720.
+
+\bibitem{sirocco}
+McLaren, B. M. (2003). Extensionally defining principles and cases in ethics: An AI model. Artificial Intelligence, 150(1-2), 145-181.
+
+\end{thebibliography}
+\end{document}
